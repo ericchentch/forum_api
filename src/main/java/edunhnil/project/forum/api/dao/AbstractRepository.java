@@ -67,27 +67,18 @@ public abstract class AbstractRepository {
                 }
                 if (found) {
                     if (count == 1) {
-                        try {
-                            int valuesDigit = Integer.parseInt(values[i]);
-                            result.append(" WHERE ").append(StringUtils.camelCaseToSnakeCase(items.getKey()))
-                                    .append(" = ")
-                                    .append(valuesDigit);
-
-                        } catch (NumberFormatException e) {
-                            result.append(" WHERE ").append(StringUtils.camelCaseToSnakeCase(items.getKey()))
-                                    .append(" LIKE '%").append(values[i]).append("%'");
-                        }
+                        result.append(" WHERE ");
                     } else {
-                        try {
-                            int valuesDigit = Integer.parseInt(values[i]);
-                            result.append(" AND ").append(StringUtils.camelCaseToSnakeCase(items.getKey()))
-                                    .append(" = ").append(valuesDigit);
-
-                        } catch (NumberFormatException e) {
-                            result.append(" AND ").append(StringUtils.camelCaseToSnakeCase(items.getKey()))
-                                    .append(" LIKE '%").append(values[i])
-                                    .append("%'");
-                        }
+                        result.append(" AND ");
+                    }
+                    try {
+                        int valuesDigit = Integer.parseInt(values[i]);
+                        result.append(StringUtils.camelCaseToSnakeCase(items.getKey()))
+                                .append(" = ")
+                                .append(valuesDigit);
+                    } catch (NumberFormatException e) {
+                        result.append(StringUtils.camelCaseToSnakeCase(items.getKey()))
+                                .append(" LIKE '%").append(values[i]).append("%'");
                     }
                     count++;
                 }
