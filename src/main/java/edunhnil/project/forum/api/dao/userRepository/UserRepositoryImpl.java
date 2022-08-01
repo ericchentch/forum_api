@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import edunhnil.project.forum.api.dao.AbstractRepository;
+import edunhnil.project.forum.api.ultilities.StringUtils;
 
 @Repository
 public class UserRepositoryImpl extends AbstractRepository implements UserRepository {
@@ -20,7 +21,7 @@ public class UserRepositoryImpl extends AbstractRepository implements UserReposi
         sql.append("SELECT * FROM account.user u ");
         sql.append(convertParamsFilterSelectQuery(allParams, attributeNamesForSelect(User.class).split(",")));
         if (keySort.trim().compareTo("") != 0 && sortField.trim().compareTo("") != 0) {
-            sql.append(" ORDER BY ").append(sortField).append(" ").append(keySort);
+            sql.append(" ORDER BY ").append(StringUtils.camelCaseToSnakeCase(sortField)).append(" ").append(keySort);
         }
         sql.append(" OFFSET ").append((page - 1) * pageSize).append(" ROWS FETCH NEXT ").append(pageSize)
                 .append(" ROWS ONLY");

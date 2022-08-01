@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import edunhnil.project.forum.api.dao.AbstractRepository;
+import edunhnil.project.forum.api.ultilities.StringUtils;
 
 @Repository
 public class InformationRepositoryImpl extends AbstractRepository implements InformationRepository {
@@ -24,11 +25,10 @@ public class InformationRepositoryImpl extends AbstractRepository implements Inf
         if (conditionInQuery.length() == 0) {
             sql.append(" WHERE u.deleted = 0");
         } else {
-            sql.append(" u.deleted = 0");
-
+            sql.append(" AND u.deleted = 0");
         }
         if (keySort.trim().compareTo("") != 0 && sortField.trim().compareTo("") != 0) {
-            sql.append(" ORDER BY i.").append(sortField).append(" ").append(keySort);
+            sql.append(" ORDER BY i.").append(StringUtils.camelCaseToSnakeCase(sortField)).append(" ").append(keySort);
         }
         sql.append(" OFFSET ").append((page - 1) * pageSize).append(" ROWS FETCH NEXT ").append(pageSize)
                 .append(" ROWS ONLY");
@@ -76,7 +76,7 @@ public class InformationRepositoryImpl extends AbstractRepository implements Inf
         if (conditionInQuery.length() == 0) {
             sql.append(" WHERE u.deleted = 0");
         } else {
-            sql.append(" u.deleted = 0");
+            sql.append(" AND u.deleted = 0");
 
         }
         return jdbcTemplate.queryForObject(sql.toString(), Integer.class);

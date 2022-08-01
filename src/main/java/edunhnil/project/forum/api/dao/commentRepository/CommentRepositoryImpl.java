@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import edunhnil.project.forum.api.dao.AbstractRepository;
+import edunhnil.project.forum.api.ultilities.StringUtils;
 
 @Repository
 public class CommentRepositoryImpl extends AbstractRepository implements CommentRepository {
@@ -19,7 +20,7 @@ public class CommentRepositoryImpl extends AbstractRepository implements Comment
                 "SELECT * FROM forum.comment c ");
         sql.append(convertParamsFilterSelectQuery(allParams, attributeNamesForSelect(Comment.class).split(",")));
         if (keySort.trim().compareTo("") != 0 && sortField.trim().compareTo("") != 0) {
-            sql.append(" ORDER BY ").append(sortField).append(" ").append(keySort);
+            sql.append(" ORDER BY ").append(StringUtils.camelCaseToSnakeCase(sortField)).append(" ").append(keySort);
         }
         sql.append(" OFFSET ").append((page - 1) * pageSize).append(" ROWS FETCH NEXT ").append(pageSize)
                 .append(" ROWS ONLY");
