@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void configure(HttpSecurity http) throws Exception {
                 http
-                                .cors().and() // block strange domain
+                                .cors().disable() // block strange domain
                                 .csrf()
                                 .disable()
                                 .authorizeRequests()
